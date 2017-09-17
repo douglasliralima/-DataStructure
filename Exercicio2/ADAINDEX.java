@@ -1,4 +1,4 @@
-package Exercicio2;
+﻿package Exercicio2;
 import java.util.*;
 class LSEGen<T> {
 	
@@ -248,14 +248,8 @@ class LSEGen<T> {
 }
 
 public class ADAINDEX {
-    /*
-    A lista duplamente encadeada mexe com inteiros e está inserida e sendo aceita
-    Entendi agora o que tem de fazer, vamos pegar primeiro um numero de palavras a ser pesquisadas
-    e depois o numero  de prefixo a serem pesquisados
-    */
     
     public static void main(String[] args) {
-        //Bom, primeiro precisamos salvar os dois números
         //Vamos fazer duas listas encadeadas, uma para pegar as palavras e outra para pegar os prefixos
         int n, q;
         int contador = 0;
