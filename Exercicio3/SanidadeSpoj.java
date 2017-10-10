@@ -1,70 +1,93 @@
 import java.util.*;
 import java.lang.*;
-class ListaDGen {
-   
-    /*
-    Basicamente aquilo mostrado em sala de aula de modo muito
-    mais simplificado, pois como queremos trabalhor comparando
-    se os nós são iguais, não faz sentido ficar olhando os elementos
-    ao invés dos próprios nós
-    */
-   
+public class ListaDGen {
+
+    
     private No inicio;
     private No fim;
     private int tamanho;
- 
+
     public ListaDGen(){
     inicio = null;
     fim = null;
     tamanho = 0;
     }
-   
- 
+    
+    public boolean vazia() {
+	    if (tamanho == 0)
+	        return true;
+	    else
+	        return false;
+	}
+  
     public int tamanho() {
         return tamanho;
     }
  
-   
-    No pegaNo(int pos) {
-    if (pos > tamanho) {
+    
+    public No getNo(int pos) {
+	if (pos > tamanho) {
             return null;
         }
- 
-    No n = inicio;
-    for (int i = 0; i < pos; ++i) {
-            n = n.getProximo();
+
+	No n = inicio;
+	for (int i = 0; i < pos; ++i) {
+            n = n.getProx();
+	}
+	return n; //Estamos retornando apenas o nó aqui, pois no programa podemos querer o proximo e o conteudo anterior
     }
-    return n;
-    }
-   
-    //A nossa função insere também foi mudada para os moldes desse exercício
-    void insere(No n) {
-     int i = 0;
-        if (tamanho != 0){
-            No m = inicio;
-            while(m.getProximo() != null){
-               m = m.getProximo();
-             }
-               n.setProximo(null);
-               m.setProximo(n);
-               n.setAnterior(fim);
-               fim.setProximo(n);
-               fim = n;
-               ++tamanho;
-       
-        }else{
-           n.setProximo(inicio);
-           n.setAnterior(null);
-           fim = n;
-           inicio = n;
+    
+    /*
+    Também foi importantissimo mudar essa função em especial que o professor fez
+    para uma outra que esteja mais nos moldes do exercicio.
+    Como definimos ptr1 e ptr2 nas duas primeiras linhas, estando eles em 
+    qualquer posição, não dá para os definir apenas com o conteúdo, precisamos salvar o 
+    nó que será esse ponteiro
+    */
+    private void insereInicio(No novoNo){
+           novoNo.setProx(inicio);
+           novoNo.setAnt(null);
+           fim = novoNo;
+           inicio = novoNo;
            tamanho++;
-        }  
-       
     }
+    
+    private void insereMeioFim(No novoNo){
+            No aux = inicio;
+            //Vamos procurar o último elemento já inserido
+            while(aux.getProx() != null){
+               aux = aux.getProx();
+             }
+            /*
+            Achado esse novo elemento, definimos as caracteristicas dele
+            com base nas recebidas pelo novoNo
+            */
+               novoNo.setProx(null);
+               aux.setProx(novoNo);
+               novoNo.setAnt(fim);
+               fim.setProx(novoNo);
+               fim = novoNo;
+               tamanho++;
+    }
+    
+    public void insere(No novoNo) {
+        if (vazia()){ //Se a lista estiver vazia
+            insereInicio(novoNo);
+        }
+        else{ //Se a lista não estiver vazia, define esse novo elemento como o primeiro
+           insereMeioFim(novoNo);
+        }
+    }
+    
+    /*
+    Como nessa lista ele não pede para manipular esses nós, acabei optando por 
+    nao fazer nesse programa as funções de remoção a partir daquilo que o professor
+    fez, particularizado para esse exercicio
+    */
 }
  
 class No <abstrato>{
-   
+    
     private No ant;
     private No prox;
     private abstrato conteudo;
@@ -74,36 +97,36 @@ class No <abstrato>{
     */
     private abstrato proximo;
     private abstrato anterior;
- 
+
     public No(){
         ant = null;
         proximo = null;
     }
- 
-    public No getAnterior(){
+
+    public No getAnt(){
         return ant;
     }
- 
-    public void setAnterior(No a){
+
+    public void setAnt(No a){
         ant = a;
     }
- 
-    public No getProximo(){
+
+    public No getProx(){
         return prox;
     }
- 
-    public void setProximo(No p){
+
+    public void setProx(No p){
         prox = p;
     }
- 
+
     public abstrato getConteudo(){
         return conteudo;
     }
- 
+
     public void setConteudo(abstrato c){
         conteudo = c;
     }
-   
+    
     //Como dito anteriomente, esses dois métodos serão especialmente úteis na situação atual
     public abstrato getConteudoAnt(){
         return anterior;
